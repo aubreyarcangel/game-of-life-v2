@@ -3,55 +3,6 @@ var gameOfLife = {
   height: 12, // width and height dimensions of the board
   stepInterval: null, // should be used to hold reference to an interval that is "playing" the game
 
-  //UI
-
-
-  // Utility
-  getCoordsOfCell: function(cell) {
-    var cellId = cell.id; //td id property e.g. <td id='0-0'...>
-    var idSplit = cellId.split('-'); // returns an array of strings['0', '0']
-
-    return idSplit.map(function(str) {
-      return parseInt(str, 10);
-    });
-  },
-
-  forEachCell: function(iteratorFunc) {
-    /*
-      Write forEachCell here. You will have to visit
-      each cell on the board, call the "iteratorFunc" function,
-      and pass into func, the cell and the cell's x & y
-      coordinates. For example: iteratorFunc(cell, x, y)
-    */
-    Array.from(document.getElementsByTagName('td')).forEach(
-      function(cell) {
-        var coords = this.getCoordsOfCell(cell);
-        iteratorFunc(cell, coords[0], coords[1]);
-      }.bind(this)
-    );
-    // var cell;
-    // for (var i = 0; i < this.height; i++) {
-    //   for (var j = 0; j < this.width; j++) {
-    //     cell = document.getElementById(`${j}-${i}`);
-    //     iteratorFunc(cell, i, j);
-    //   }
-    // }
-  },
-
-  clearCell : function(){
-    if (this.getCellStatus())
-  },
-
-  getCellStatus: function(cell) {
-    return cell.getAttribute('data-status');
-  },
-
-  setCellStatus: function(cell, status) {
-    cell.className = status;
-    cell.setAttribute('data-status', status);
-  },
-
-  //Game
   createAndShowBoard: function() {
     // create <table> element
     var goltable = document.createElement('tbody');
@@ -59,11 +10,11 @@ var gameOfLife = {
     // build Table HTML
     var tablehtml = '';
     for (var h = 0; h < this.height; h++) {
-      tablehtml += `<tr id='row+${h}'>`; //es6 template strings
+      tablehtml += "<tr id='row+" + h + "'>";
       for (var w = 0; w < this.width; w++) {
-        tablehtml += `<td data-status='dead' id='${w}-${h}'></td>`; //es6 template strings
+        tablehtml += "<td data-status='dead' id='" + w + '-' + h + "'></td>";
       }
-      tablehtml += `</tr>`; //es6 template strings
+      tablehtml += '</tr>';
     }
     goltable.innerHTML = tablehtml;
 
@@ -73,6 +24,15 @@ var gameOfLife = {
 
     // once html elements are added to the page, attach events to them
     this.setupBoardEvents();
+  },
+
+  forEachCell: function(iteratorFunc) {
+    /*
+      Write forEachCell here. You will have to visit
+      each cell on the board, call the "iteratorFunc" function,
+      and pass into func, the cell and the cell's x & y
+      coordinates. For example: iteratorFunc(cell, x, y)
+    */
   },
 
   setupBoardEvents: function() {
@@ -103,19 +63,8 @@ var gameOfLife = {
       }
     };
 
-    // var cell;
-    // for (var i = 0; i < this.height; i++) {
-    //   for (var j = 0; j < this.width; j++) {
-    //     cell = document.getElementById(`${j}-${i}`);
-    //     cell.onclick = onCellClick;
-    //   }
-    // }
-
-    this.forEachCell(function(cell, i, j) {
-      cell.onclick = onCellClick;
-    });
-    // var cell00 = document.getElementById('0-0');
-    // cell00.addEventListener('click', onCellClick);
+    var cell00 = document.getElementById('0-0');
+    cell00.addEventListener('click', onCellClick);
   },
 
   step: function() {
