@@ -5,6 +5,11 @@ body {
 h1, h2 {
   text-align: center;
 }
+
+ol, ul {
+  text-align: center;
+}
+
 #board{
   margin: 0 auto;
 }
